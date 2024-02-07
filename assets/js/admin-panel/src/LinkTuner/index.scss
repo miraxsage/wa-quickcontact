@@ -1,0 +1,86 @@
+.wa-link-tuner {
+    display: flex;
+    padding-bottom: 10px;
+}
+.wa-link-tuner .dashicons-move {
+    align-self: center;
+    color: #c1c1c1;
+    padding: 5px;
+    transition: color 0.3s;
+}
+.wa-link-tuner .dashicons-move:hover {
+    color: #2271b1;
+}
+.wa-link-tuner_content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.wa-link-tuner_title {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.wa-link-tuner_icon {
+    padding: 4px 5px 5px 5px;
+    border-radius: 6px;
+    line-height: 0;
+}
+.wa-link-tuner_icon > img {
+    width: 18px;
+    height: 18px;
+}
+.wa-link-tuner_icon__whatsapp {
+    background-color: #2ab748;
+    padding: 4px 5px 5px 5px;
+    border-radius: 6px;
+    border-radius: 6px;
+}
+.wa-link-tuner_icon__email {
+    background-color: #939393;
+}
+.wa-link-tuner_icon__phone {
+    background-color: #2ab748;
+}
+.wa-link-tuner_icon__ok,
+.wa-link-tuner_icon__vk,
+.wa-link-tuner_icon__telegram {
+    padding: 0;
+}
+.wa-link-tuner_icon__ok > img,
+.wa-link-tuner_icon__vk > img,
+.wa-link-tuner_icon__telegram > img {
+    width: 26px;
+    height: 26px;
+}
+.wa-link-tuner_icon__instagram {
+    background: linear-gradient(125deg, #b51fbd, #fbc426);
+}
+.wa-link-tuner_icon__message {
+    background-color: #c7092c;
+}
+
+.wa-link-tuner_title-text {
+    flex-grow: 1;
+}
+.wa-link-tuner_controls {
+    display: flex;
+    gap: 5px;
+}
+.wa-link-tuner_controls > *:first-child {
+    max-width: 250px;
+}
+.wa-link-tuner_controls > * {
+    flex-grow: 1;
+}
+.wa-link-tuner_color-control {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: flex-end;
+}
+.wa-link-tuner_color-control input[type="color"] {
+    width: 100px;
+    height: 30px;
+}

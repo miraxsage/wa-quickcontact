@@ -1,0 +1,35 @@
+.wa-links-composer_add-button {
+    display: flex;
+    padding: 5px;
+    border: 1px solid #cac1c1;
+    border-radius: 4px;
+    margin-left: 30px;
+}
+.wa-links-composer_add-button > *:first-child {
+    flex-grow: 1;
+    text-align: right;
+}
+.wa-links-composer_add-button > *:last-child {
+    flex-grow: 1;
+}
+.wa-links-composer_side-button {
+    color: transparent;
+    cursor: pointer;
+    transition: color 0.3s;
+    cursor: default;
+}
+.wa-links-composer_side-button .dashicons {
+    color: transparent;
+    transition: color 0.3s;
+}
+.wa-links-composer_side-button__shown {
+    color: #8d8d8d;
+    cursor: pointer;
+}
+.wa-links-composer_side-button__shown .dashicons {
+    color: #c3c4cf;
+}
+.wa-links-composer_side-button__shown:hover,
+.wa-links-composer_side-button__shown:hover .dashicons {
+    color: #2271b1;
+}
