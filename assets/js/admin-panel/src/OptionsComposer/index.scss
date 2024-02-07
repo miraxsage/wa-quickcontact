@@ -1,0 +1,20 @@
+.wa-toggle-block {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.wa-options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.wa-input-caption {
+    margin-top: 10px;
+    margin-bottom: 3px;
+}
+.wa-options-container input[type="text"] {
+    width: 265px;
+}
+.wa-options-container input[type="number"] {
+    width: 100px;
+}

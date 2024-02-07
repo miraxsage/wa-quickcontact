@@ -6,11 +6,11 @@
     margin-left: 30px;
 }
 .wa-links-composer_add-button > *:first-child {
-    flex-grow: 1;
+    width: calc(50% - 10px);
     text-align: right;
 }
 .wa-links-composer_add-button > *:last-child {
-    flex-grow: 1;
+    width: calc(50% - 10px);
 }
 .wa-links-composer_side-button {
     color: transparent;
