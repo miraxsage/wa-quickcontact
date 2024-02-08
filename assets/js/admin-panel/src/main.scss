@@ -1,40 +1,37 @@
-.wa-quickcontacts-links {
-
-}
-#wa-quickcontact-container input{
+#wa-quickcontact-container input {
     margin: 0;
 }
-.wa-container{
+.wa-container {
     border: 1px solid #c1c1ca;
     border-radius: 4px;
     padding: 7px;
 }
-.wa-container-title{
+.wa-container-title {
     margin: -7px -7px 7px -7px;
     padding: 4px 9px 7px 9px;
     background: #e7e7e7;
 }
-.wa-quickcontact-container{
+.wa-quickcontact-container {
     display: flex;
     gap: 5px;
     margin: 17px 13px 0px 0px;
 }
 @media screen and (max-width: 1150px) {
-    .wa-quickcontact-container{
+    .wa-quickcontact-container {
         flex-direction: column;
     }
 }
-.wa-quickcontact-container > *:nth-child(1){
+.wa-quickcontact-container > *:nth-child(1) {
     flex-grow: 1.5;
 }
-.wa-quickcontact-container > *:nth-child(2){
+.wa-quickcontact-container > *:nth-child(2) {
     flex-grow: 1;
 }
-.wa-quickcontact-container > *:nth-child(3){
+.wa-quickcontact-container > *:nth-child(3) {
     flex-grow: 0;
 }
 // Исправляет некорректную работу react-beautiful-dnd при перетаскивании
 [data-rbd-placeholder-context-id] {
-    height: 0px !important;
+    width: 0px !important;
+    max-height: 0;
 }
-

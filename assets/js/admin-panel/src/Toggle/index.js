@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./index.scss";
 
 export default function Toggle({
@@ -13,13 +13,14 @@ export default function Toggle({
     const [spareId] = useState(Math.random().toString(36).slice(2));
     if (!id) id = spareId;
     let [checked, setChecked] = useState(value);
+    useEffect(() => {
+        if (value != checked) setChecked(value);
+    });
 
     return (
         <div className="wa-toggle" style={style}>
             <div className="wa-toggle_header">
-                <label style={{ margin: "0px", padding: "1px 0px 0px 0px" }}>
-                    {label}
-                </label>
+                <label style={{ margin: "0px", padding: "1px 0px 0px 0px" }}>{label}</label>
                 <div class="wa-toggle_control__container">
                     <input
                         type="checkbox"
@@ -39,11 +40,7 @@ export default function Toggle({
                     </label>
                 </div>
             </div>
-            {description ? (
-                <em className="wa-toggle_description">{description}</em>
-            ) : (
-                ""
-            )}
+            {description ? <em className="wa-toggle_description">{description}</em> : ""}
         </div>
     );
 }

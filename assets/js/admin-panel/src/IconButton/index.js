@@ -20,7 +20,6 @@ export default class IconButton extends React.Component {
         this.setState({ ...this.state });
     }
     render() {
-        console.log(this.state.tooltipShown);
         const {
             type,
             onClick,
