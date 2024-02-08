@@ -9,6 +9,7 @@ function AddButton({ onAdd }) {
     const [isHovered, setIsHovered] = useState(false);
     const onClickHandler = (kind) => {
         return () => {
+            if (!isHovered) return;
             onAdd(kind);
         };
     };

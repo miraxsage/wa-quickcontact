@@ -5,7 +5,10 @@ import { useState } from "react";
 
 function ErrorControl({ children }) {
     return (
-        <div className="error" style={{ marginLeft: "0px", marginRight: "0px", maxWidth: "236px" }}>
+        <div
+            className="wa-error-message"
+            style={{ marginLeft: "0px", marginRight: "0px", maxWidth: "236px" }}
+        >
             {children}
         </div>
     );
@@ -75,7 +78,8 @@ function AppearConditionControl({ config, onChange }) {
                 setError("Значение должно быть целым положительным числом");
             else {
                 setError(null);
-                onChange({ ...config, [kind]: Number(e.target.value) });
+                const num = Number(e.target.value);
+                onChange({ ...config, [kind]: num ? num : null });
             }
         };
     };
@@ -85,15 +89,15 @@ function AppearConditionControl({ config, onChange }) {
             <input
                 type="text"
                 placeholder="px"
-                value={value.appearDelay}
-                onChange={onChangeHandler("appearDelay")}
+                value={value.appearDistance}
+                onChange={onChangeHandler("appearDistance")}
             />
             <div className="wa-input-caption">Миллисекунд с момента загрузки</div>
             <input
                 type="text"
                 placeholder="ms"
-                value={value.appearDistance}
-                onChange={onChangeHandler("appearDistance")}
+                value={value.appearDelay}
+                onChange={onChangeHandler("appearDelay")}
             />
             {error && <ErrorControl>{error}</ErrorControl>}
         </Container>
@@ -136,7 +140,6 @@ function ExcludePagesControl({ config, onChange }) {
             <div className="wa-input-caption">Отключить плагин на следующих страницах</div>
             <input
                 type="text"
-                className={error ? "error" : ""}
                 placeholder="id страниц через запятую"
                 value={value}
                 onChange={onChangeHandler}

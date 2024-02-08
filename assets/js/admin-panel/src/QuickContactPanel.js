@@ -1,7 +1,8 @@
 import Container from "./Container";
 import LinksComposer from "./LinksComposer";
 import OptionsComposer from "./OptionsComposer";
-import { useState } from "react";
+import { useState, useLayoutEffect } from "react";
+import classes from "classnames";
 
 const defaultConfig = {
     links: [
@@ -27,30 +28,94 @@ const defaultConfig = {
     },
 };
 
+function codeConfig(config, mode = "encode") {
+    const codedConfig = { ...config, links: config.links.map((link) => ({ ...link })) };
+    codedConfig.links.forEach((link) => {
+        if (link.kind == "block" && link.content)
+            link.content = mode == "encode" ? btoa(link.content) : atob(link.content);
+    });
+    return codedConfig;
+}
+
 export default function QuickContactPanel() {
-    const [config, setConfig] = useState(defaultConfig);
-    console.log(config);
+    const [config, setConfig] = useState(
+        waQuickContactConfig ? JSON.parse(waQuickContactConfig) : defaultConfig,
+    );
+    useLayoutEffect(() => {
+        setConfig(codeConfig(config, "decode"));
+    }, []);
+    const [status, setStatus] = useState({ status: "normal" });
+    const onChangeHandler = (newConfig) => {
+        setStatus({ status: "normal" });
+        setConfig(newConfig);
+        return;
+    };
+
+    const onSaveHandler = async () => {
+        setStatus({ status: "loading" });
+        const response = await fetch("/wp-admin/admin-ajax.php?action=wa-quickcontact", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8",
+            },
+            body: JSON.stringify(codeConfig(config)),
+        });
+        if (!response.ok) {
+            setStatus({ status: "error", message: "Некорректный ответ сервера" });
+            return;
+        }
+        let json = null;
+        try {
+            json = await response.json();
+        } catch (exc) {
+            setStatus({ status: "error", message: "Некорректный ответ сервера" });
+            return;
+        }
+        if (!json || typeof json != "object" || !json.success)
+            setStatus({
+                status: "error",
+                message: json.message ? json.message : "Некорректный ответ сервера",
+            });
+        else setStatus({ status: "success", message: "Настройки успешно сохранены" });
+    };
     return (
         <div className="wa-quickcontact-container">
             <Container title="Настройка ссылок">
                 <LinksComposer
                     config={config.links}
-                    onChange={(c) => setConfig({ ...config, links: c })}
+                    onChange={(c) => onChangeHandler({ ...config, links: c })}
                 />
             </Container>
             <Container title="Настройки основной кнопки открытия">
                 <OptionsComposer
                     config={config.options}
-                    onChange={(c) => setConfig({ ...config, options: c })}
+                    onChange={(c) => onChangeHandler({ ...config, options: c })}
                 />
             </Container>
             <Container title="Сохранение" style={{ minWidth: "200px" }}>
                 <button
-                    className="button button-primary"
+                    onClick={onSaveHandler}
+                    className={classes("button button-primary", {
+                        "success-button": status.status == "success",
+                    })}
                     style={{ width: "100%" }}
                 >
-                    Сохранить
+                    {status.status == "loading" && (
+                        <span className="button-loader">Сохранение...</span>
+                    )}
+                    {status.status == "success" && "Сохранено"}
+                    {(status.status == "error" || status.status == "normal") && "Сохранить"}
                 </button>
+                {status.status == "success" && (
+                    <div className="wa-success-message" style={{ maxWidth: "171px" }}>
+                        {status.message}
+                    </div>
+                )}
+                {status.status == "error" && (
+                    <div className="wa-error-message" style={{ maxWidth: "171px" }}>
+                        {status.message}
+                    </div>
+                )}
             </Container>
             <div></div>
         </div>

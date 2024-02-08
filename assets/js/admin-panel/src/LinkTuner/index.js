@@ -2,6 +2,7 @@ import { Draggable } from "react-beautiful-dnd";
 import "./index.scss";
 import Toggle from "../Toggle";
 import IconButton from "../IconButton";
+import { Base64 } from "../services";
 
 const kindsDefaultTitles = [
     ["whatsapp", "WhatsApp"],
@@ -40,7 +41,14 @@ export default function LinkTuner({
                     <div className="wa-link-tuner_content">
                         <div className="wa-link-tuner_title">
                             {kind != "block" && (
-                                <div className={`wa-link-tuner_icon wa-link-tuner_icon__${kind}`}>
+                                <div
+                                    className={`wa-link-tuner_icon wa-link-tuner_icon__${kind}`}
+                                    style={{
+                                        ...(kind == "message"
+                                            ? { backgroundColor: bg ?? "#c7092c" }
+                                            : {}),
+                                    }}
+                                >
                                     <img
                                         src={
                                             kind == "message" && icon
@@ -90,7 +98,7 @@ export default function LinkTuner({
                                             <span>Цвет фона</span>
                                             <input
                                                 type="color"
-                                                value={bg ?? "#ffffff"}
+                                                value={bg ?? "#c7092c"}
                                                 style={{ height: "30px" }}
                                                 onChange={onChangeHandler("bg")}
                                             />
@@ -106,7 +114,10 @@ export default function LinkTuner({
                             </>
                         ) : (
                             <>
-                                <textarea onChange={onChangeHandler("content")}>{content}</textarea>
+                                <textarea
+                                    onChange={onChangeHandler("content")}
+                                    value={content}
+                                ></textarea>
                             </>
                         )}
                     </div>

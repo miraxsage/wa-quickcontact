@@ -15,7 +15,7 @@
         "prettier": "^3.2.5"
     },
     "dependencies": {
-        "class-names": "^1.0.0",
+        "classnames": "^2.5.1",
         "react-beautiful-dnd": "^13.1.1"
     }
 }
