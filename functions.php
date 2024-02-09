@@ -1,9 +1,25 @@
 <?php
 /* CLIENT SIDE */
 add_action('wp_enqueue_scripts', function(){
+    $config = get_option("wa-quickcontact-config");
+    if(!$config)
+        return;
+    try {
+        $qobj = get_queried_object();
+        if($qobj instanceof WP_Post){
+            $configObj = (array)json_decode($config);
+            $options = (array)$configObj["options"];
+            $exclude_pages = (array)$options["excludePages"];
+            $qobj = get_queried_object();
+            if(in_array($qobj->ID, $exclude_pages))
+                return;
+        }
+    }
+    catch(Exception $exc){
+        return;
+    }
     wp_enqueue_style('wa-quick-contact', WAQCT_PLUGIN_URI."assets/css/wa-qcont.css");
     wp_enqueue_script('wa-quick-contact', WAQCT_PLUGIN_URI."assets/js/wa-qcont.js", false, false, ["in_footer" => true]);
-    $config = get_option("wa-quickcontact-config");
     wp_add_inline_script('wa-quick-contact', 
         'waQuickContactPluginUri = "'.WAQCT_PLUGIN_URI.'";
         waQuickContactConfig = '.($config ? '`'.$config.'`' : "null").';', 
