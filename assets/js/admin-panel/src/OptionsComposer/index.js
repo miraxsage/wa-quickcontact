@@ -103,6 +103,49 @@ function AppearConditionControl({ config, onChange }) {
         </Container>
     );
 }
+function CloseCondtitionsControl({ config, onChange }) {
+    const [error, setError] = useState(null);
+    const [value, setValue] = useState(config.closeDelay ?? "");
+    const onChangeHandler = (kind) => {
+        return (e, val) => {
+            if (kind == "click") {
+                setError(null);
+                setValue("");
+                onChange({ ...config, closeDelay: val ? null : "" });
+                return;
+            }
+            setValue(e.target.value);
+            if (e.target.value && !e.target.value.match(/^\d+$/))
+                setError("Значение должно быть целым положительным числом");
+            else {
+                setError(null);
+                const num = Number(e.target.value);
+                onChange({ ...config, closeDelay: e.target.value ? num : "" });
+            }
+        };
+    };
+    return (
+        <Container title="Скрывать список ссылок">
+            <div className="wa-toggle-block">
+                <span>При клике вне области ссылок</span>
+                <Toggle value={config.closeDelay == null} onChange={onChangeHandler("click")} />
+            </div>
+            <div className="wa-input-caption">
+                Через указанное количество миллисекунд
+                <br />
+                после увода указателя мыши из области ссылок
+            </div>
+            <input
+                type="text"
+                placeholder="ms"
+                readOnly={config.closeDelay == null}
+                value={value}
+                onChange={onChangeHandler("delay")}
+            />
+            {error && <ErrorControl>{error}</ErrorControl>}
+        </Container>
+    );
+}
 function AppearSideControl({ config, onChange }) {
     const opposite = { left: "right", right: "left" };
     const onChangeHandler = (kind) => {
@@ -158,6 +201,7 @@ export default function OptionsComposer({ config, onChange }) {
         MainIconControl,
         AnimationsModesControl,
         AppearConditionControl,
+        CloseCondtitionsControl,
         AppearSideControl,
         ExcludePagesControl,
     ];

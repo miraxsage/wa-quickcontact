@@ -23,6 +23,7 @@ const defaultConfig = {
         swingAnimation: true,
         appearDelay: null,
         appearDistance: null,
+        closeDelay: null,
         side: "right",
         excludePages: [],
     },

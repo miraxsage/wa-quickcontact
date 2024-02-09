@@ -19,6 +19,7 @@
             swingAnimation: true,
             appearDelay: null,
             appearDistance: null,
+            closeDelay: null,
             side: "right",
             excludePages: [],
         },
@@ -64,17 +65,34 @@
             clearTimeout(closeTimeoutId);
         };
         let onMouseLeave = () => {
-            if (typeof config.options.closeDelay == "number")
-                closeTimeoutId = setTimeout(() => changeVisibility(false), config.options.closeDelay);
+            if (config.options.closeDelay != null)
+                closeTimeoutId = setTimeout(() => changeVisibility(false), Number(config.options.closeDelay));
         };
         let onLinkClick = () => {
             closeTimeoutId = setTimeout(() => changeVisibility(false), 200);
         };
+        let toggleBodyClickListenerForClosing = (() => {
+            let clickHandler = (e) => {
+                if(e.target && !e.target.closest(".wa-qc-core"))
+                    changeVisibility(false);
+            };
+            return (bind = true) => {
+                if(bind)
+                    document.body.addEventListener("click", clickHandler);
+                else
+                    document.body.removeEventListener("click", clickHandler);
+            };
+        })();
         let changeVisibility = (visible) => {
             if (typeof visible === "boolean") closed = !visible;
             else closed = !closed;
-            if (!closed) root.classList.add("wa-qc-close");
-            else root.classList.remove("wa-qc-close");
+            if (!closed) {
+                root.classList.add("wa-qc-close");
+            }
+            else { 
+                root.classList.remove("wa-qc-close");
+            }
+            toggleBodyClickListenerForClosing(!closed);
         };
         let showMainButton = (delay) => {
             if (root.classList.contains("wa-qc-shown")) return;
@@ -150,8 +168,10 @@
         if(!config.options.mainLink){
             root.querySelector(".wa-qc-circle").addEventListener("click", changeVisibility);
             root.querySelectorAll("a").forEach((el) => el.addEventListener("click", onLinkClick));
-            root.addEventListener("mouseenter", onMouseEnter);
-            root.addEventListener("mouseleave", onMouseLeave);
+            if(config.options.closeDelay != null){
+                root.addEventListener("mouseenter", onMouseEnter);
+                root.addEventListener("mouseleave", onMouseLeave);
+            }
         }
         document.body.append(root);
         if (config.options.appearDelay) showMainButton(config.options.appearDelay);
