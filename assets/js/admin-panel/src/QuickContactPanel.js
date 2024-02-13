@@ -3,6 +3,7 @@ import LinksComposer from "./LinksComposer";
 import OptionsComposer from "./OptionsComposer";
 import { useState, useLayoutEffect } from "react";
 import classes from "classnames";
+import { Base64 } from "./services";
 
 const defaultConfig = {
     links: [
@@ -33,7 +34,8 @@ function codeConfig(config, mode = "encode") {
     const codedConfig = { ...config, links: config.links.map((link) => ({ ...link })) };
     codedConfig.links.forEach((link) => {
         if (link.kind == "block" && link.content)
-            link.content = mode == "encode" ? btoa(link.content) : atob(link.content);
+            link.content =
+                mode == "encode" ? Base64.encode(link.content) : Base64.decode(link.content);
     });
     return codedConfig;
 }
