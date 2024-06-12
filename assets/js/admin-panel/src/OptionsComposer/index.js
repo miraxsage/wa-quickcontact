@@ -33,6 +33,18 @@ function MainLinkControl({ config, onChange }) {
         </Container>
     );
 }
+function MainAttrsControl({ config, onChange }) {
+    return (
+        <Container title="HTML-атрибуты главной кнопки">
+            <input
+                type="text"
+                placeholder="Атрибуты"
+                value={config.mainAttrs || ""}
+                onChange={(e) => onChange({ mainAttrs: e.target.value })}
+            />
+        </Container>
+    );
+}
 function MainIconControl({ config, onChange }) {
     return (
         <Container title="Альтернативная иконка для открытия">
@@ -198,6 +210,7 @@ export default function OptionsComposer({ config, onChange }) {
     };
     const controls = [
         MainLinkControl,
+        MainAttrsControl,
         MainIconControl,
         AnimationsModesControl,
         AppearConditionControl,

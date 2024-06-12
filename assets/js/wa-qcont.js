@@ -139,6 +139,7 @@
         ],
         options: {
             mainLink: null,
+            mainAttrs: null,
             mainIcon: null,
             pulseAnimation: true,
             swingAnimation: true,
@@ -269,6 +270,14 @@
                 .filter(Boolean);
         }
         let totalDelay = Math.round((socials.length * 5) / 9) / 10;
+        let mainAttrs = "";
+        if(config.options.mainAttrs){
+            if(!!customConfig)
+                mainAttrs = config.options.mainAttrs;
+            else 
+                mainAttrs = Base64.decode(config.options.mainAttrs);
+        }
+
         let markup = `
         <div class="wa-qc-core 
                     wa-qc-${config.options.side == "left" ? "left" : "right"}
@@ -280,8 +289,8 @@
             <div class="wa-qc-list">
                 ${socials.join(" ")}
             </div>
-            ${config.options.mainLink ? `<a href="${config.options.mainLink}">` : ""}
-                <div class="wa-qc-circle">      
+            ${config.options.mainLink ? `<a href="${config.options.mainLink}"${mainAttrs && " " + mainAttrs}>` : ""}
+                <div class="wa-qc-circle"${!config.options.mainLink && mainAttrs ? " " + mainAttrs : ""}>      
                     <div class="wa-qc-open">
                         <img alt="open contacts" class="wa-qc-open-img" src="${config.options.mainIcon ? config.options.mainIcon : iconsUri + "message.svg"}">
                         <img alt="close contacts" class="wa-qc-close-img" src="${iconsUri}close.svg">

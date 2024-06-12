@@ -2,7 +2,6 @@ import { Draggable } from "react-beautiful-dnd";
 import "./index.scss";
 import Toggle from "../Toggle";
 import IconButton from "../IconButton";
-import { Base64 } from "../services";
 
 const kindsDefaultTitles = [
     ["whatsapp", "WhatsApp"],

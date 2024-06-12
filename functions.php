@@ -67,9 +67,11 @@ add_action('admin_enqueue_scripts', function($hook){
         'before');
 });
 
-function return_ajax_error($error){
-    echo '{"success": false, "message": "'.$error.'"}';
-    wp_die();
+if(!function_exists("return_ajax_error")){
+	function return_ajax_error($error){
+		echo '{"success": false, "message": "'.$error.'"}';
+		wp_die();
+	}
 }
 
 function array_has_keys($array, $keys){
@@ -121,7 +123,7 @@ function valid_config_or_null($config){
     if($important_links != 7)
         return null;
 
-    $options_fields = ["mainLink", "mainIcon", "pulseAnimation", "swingAnimation", "appearDelay", "appearDistance", "closeDelay", "side", "excludePages"];
+    $options_fields = ["mainLink", "mainAttrs",  "mainIcon", "pulseAnimation", "swingAnimation", "appearDelay", "appearDistance", "closeDelay", "side", "excludePages"];
     $options = $config["options"];
     if(is_object($options))
         $options = (array)$config["options"];

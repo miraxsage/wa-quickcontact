@@ -1,7 +1,7 @@
 import Container from "./Container";
 import LinksComposer from "./LinksComposer";
 import OptionsComposer from "./OptionsComposer";
-import { useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect, useRef } from "react";
 import classes from "classnames";
 import { Base64 } from "./services";
 
@@ -19,6 +19,7 @@ const defaultConfig = {
     ],
     options: {
         mainLink: null,
+        mainAttrs: null,
         mainIcon: null,
         pulseAnimation: true,
         swingAnimation: true,
@@ -31,19 +32,35 @@ const defaultConfig = {
 };
 
 function codeConfig(config, mode = "encode") {
-    const codedConfig = { ...config, links: config.links.map((link) => ({ ...link })) };
+    const codedConfig = {
+        ...config,
+        links: config.links.map((link) => ({ ...link })),
+        options: { ...config.options },
+    };
     codedConfig.links.forEach((link) => {
         if (link.kind == "block" && link.content)
             link.content =
                 mode == "encode" ? Base64.encode(link.content) : Base64.decode(link.content);
     });
+    if (codedConfig.options.mainAttrs)
+        codedConfig.options.mainAttrs =
+            mode == "encode"
+                ? Base64.encode(codedConfig.options.mainAttrs)
+                : Base64.decode(codedConfig.options.mainAttrs);
     return codedConfig;
 }
 
 export default function QuickContactPanel() {
-    const [config, setConfig] = useState(
-        waQuickContactConfig ? JSON.parse(waQuickContactConfig) : defaultConfig,
-    );
+    const initialConfig = useRef();
+    try {
+        if (!initialConfig.current) {
+            initialConfig.current = JSON.parse(waQuickContactConfig);
+            if (!initialConfig.current) throw new Error();
+        }
+    } catch {
+        initialConfig.current = defaultConfig;
+    }
+    const [config, setConfig] = useState(initialConfig.current);
     useLayoutEffect(() => {
         setConfig(codeConfig(config, "decode"));
     }, []);
