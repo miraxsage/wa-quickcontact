@@ -142,17 +142,17 @@ export default function QuickContactPanel() {
                     )}
                 </button>
                 {status.status == "error" && (
-                    <div className="wa-error-message" style={{ maxWidth: "171px" }}>
+                    <div className="wa-error-message">
                         {status.message}
                     </div>
                 )}
                 {status.status == "success" && !hasChanges && (
-                    <div className="wa-success-message" style={{ maxWidth: "171px" }}>
+                    <div className="wa-success-message">
                         {status.message}
                     </div>
                 )}
                 {status.status != "error" && status.status != "loading" && hasChanges && (
-                    <div className="wa-unsaved-message" style={{ maxWidth: "171px" }}>
+                    <div className="wa-unsaved-message">
                         Изменения не сохранены
                     </div>
                 )}

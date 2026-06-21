@@ -50,6 +50,8 @@
 .wa-error-message,
 .wa-success-message,
 .wa-unsaved-message {
+    box-sizing: border-box;
+    width: 100%;
     margin: 5px 0;
     padding: 6px 10px;
     border-radius: 3px;
