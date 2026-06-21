@@ -38,10 +38,15 @@ function MainAttrsControl({ config, onChange }) {
         <Container title="HTML-атрибуты главной кнопки">
             <input
                 type="text"
-                placeholder="Атрибуты"
+                placeholder={'class="my-class" data-id="5"'}
                 value={config.mainAttrs || ""}
                 onChange={(e) => onChange({ mainAttrs: e.target.value })}
             />
+            <div className="wa-input-caption">
+                Добавляются к круглой кнопке открытия, а при включённом режиме «Сделать
+                ссылкой без блока слева» - к её ссылке. Указывайте полным синтаксисом
+                атрибутов, например: class="my-class" data-id="5" title="Связаться"
+            </div>
         </Container>
     );
 }

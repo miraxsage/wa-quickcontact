@@ -161,6 +161,24 @@
             return elements[0];
         return null;
     }
+    // Применяет к элементу произвольные HTML-атрибуты из строки.
+    // class подмешивается к уже имеющимся классам (а не дублирует атрибут class,
+    // который браузер бы проигнорировал), остальные атрибуты выставляются как есть.
+    function applyHtmlAttrs(el, attrsString) {
+        if(!el || !attrsString)
+            return;
+        const holder = document.createElement("template");
+        holder.innerHTML = `<i ${attrsString}></i>`;
+        const parsed = holder.content.firstElementChild;
+        if(!parsed)
+            return;
+        Array.from(parsed.attributes).forEach((attr) => {
+            if(attr.name == "class")
+                attr.value.split(/\s+/).filter(Boolean).forEach((c) => el.classList.add(c));
+            else
+                el.setAttribute(attr.name, attr.value);
+        });
+    }
     window.WaQuickContact = function (customConfig) {
         const config = { ...initialConfig };
         if(customConfig){
@@ -289,8 +307,8 @@
             <div class="wa-qc-list">
                 ${socials.join(" ")}
             </div>
-            ${config.options.mainLink ? `<a href="${config.options.mainLink}"${mainAttrs && " " + mainAttrs}>` : ""}
-                <div class="wa-qc-circle"${!config.options.mainLink && mainAttrs ? " " + mainAttrs : ""}>      
+            ${config.options.mainLink ? `<a href="${config.options.mainLink}">` : ""}
+                <div class="wa-qc-circle">
                     <div class="wa-qc-open">
                         <img alt="open contacts" class="wa-qc-open-img" src="${config.options.mainIcon ? config.options.mainIcon : iconsUri + "message.svg"}">
                         <img alt="close contacts" class="wa-qc-close-img" src="${iconsUri}close.svg">
@@ -299,6 +317,13 @@
             ${config.options.mainLink ? "</a>" : ""}
         </div>`;
         root = createElement(markup);
+        // HTML-атрибуты главной кнопки: при включённой ссылке - на тег <a>,
+        // иначе - на саму круглую кнопку .wa-qc-circle
+        if(mainAttrs)
+            applyHtmlAttrs(
+                config.options.mainLink ? root.querySelector("a") : root.querySelector(".wa-qc-circle"),
+                mainAttrs
+            );
         if(!config.options.mainLink){
             root.querySelector(".wa-qc-circle").addEventListener("click", changeVisibility);
             root.querySelectorAll("a").forEach((el) => el.addEventListener("click", onLinkClick));
