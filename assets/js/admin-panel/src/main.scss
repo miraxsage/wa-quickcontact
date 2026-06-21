@@ -2,23 +2,32 @@
     margin: 0;
 }
 .wa-container {
-    border: 1px solid #c1c1ca;
-    border-radius: 4px;
+    border: 1px solid #d1d1d1;
+    background: #fafafa;
     padding: 7px;
 }
 .wa-container-title {
-    margin: -7px -7px 7px -7px;
-    padding: 4px 9px 7px 9px;
-    background: #e7e7e7;
+    margin: -7px -7px 9px -7px;
+    padding: 5px 7px 8px 9px;
+    background: #efefef;
 }
 .wa-quickcontact-container {
     display: flex;
-    gap: 5px;
+    gap: 0;
     margin: 17px 13px 0px 0px;
+}
+/* Боксы стоят впритык: схлопываем смежные границы, чтобы заголовки
+   читались единой серой плашкой, как в wa-slider */
+.wa-quickcontact-container > .wa-container:not(:first-child) {
+    border-left: none;
 }
 @media screen and (max-width: 1150px) {
     .wa-quickcontact-container {
         flex-direction: column;
+    }
+    .wa-quickcontact-container > .wa-container:not(:first-child) {
+        border-left: 1px solid #d1d1d1;
+        border-top: none;
     }
 }
 .wa-quickcontact-container > *:nth-child(1) {
@@ -39,7 +48,8 @@
 
 /* Статусные сообщения */
 .wa-error-message,
-.wa-success-message {
+.wa-success-message,
+.wa-unsaved-message {
     background: #fff;
     border: 1px solid #c3c4c7;
     border-left-width: 4px;
@@ -54,18 +64,21 @@
 .wa-success-message {
     border-left-color: #21be50;
 }
+.wa-unsaved-message {
+    border-left-color: #dba617;
+    background-color: #fcf9e8;
+}
 
-.button.button-primary.success-button {
-    background: #389144;
-    border-color: #1f6f2a;
-}
-.button.button-primary.success-button:hover {
-    background: #1f6f2a;
-}
-.button.button-primary.success-button:focus {
-    box-shadow:
-        0 0 0 1px #fff,
-        0 0 0 3px #1f6f2a;
+/* Серая (неактивная) кнопка сохранения по умолчанию - как в wa-slider */
+.wa-container .button.button-primary:disabled,
+.wa-container .button.button-primary:disabled:hover,
+.wa-container .button.button-primary:disabled:focus {
+    background: #f6f7f7;
+    border-color: #c3c4c7;
+    color: #a7aaad;
+    text-shadow: none;
+    box-shadow: none;
+    cursor: default;
 }
 
 /* Анимация лоадера */

@@ -2,7 +2,6 @@ import Container from "./Container";
 import LinksComposer from "./LinksComposer";
 import OptionsComposer from "./OptionsComposer";
 import { useState, useLayoutEffect, useRef } from "react";
-import classes from "classnames";
 import { Base64 } from "./services";
 
 const defaultConfig = {
@@ -61,10 +60,14 @@ export default function QuickContactPanel() {
         initialConfig.current = defaultConfig;
     }
     const [config, setConfig] = useState(initialConfig.current);
+    const savedConfig = useRef(initialConfig.current);
     useLayoutEffect(() => {
-        setConfig(codeConfig(config, "decode"));
+        const decoded = codeConfig(config, "decode");
+        savedConfig.current = decoded;
+        setConfig(decoded);
     }, []);
     const [status, setStatus] = useState({ status: "normal" });
+    const hasChanges = JSON.stringify(config) !== JSON.stringify(savedConfig.current);
     const onChangeHandler = (newConfig) => {
         setStatus({ status: "normal" });
         setConfig(newConfig);
@@ -96,7 +99,10 @@ export default function QuickContactPanel() {
                 status: "error",
                 message: json.message ? json.message : "Некорректный ответ сервера",
             });
-        else setStatus({ status: "success", message: "Настройки успешно сохранены" });
+        else {
+            savedConfig.current = config;
+            setStatus({ status: "success", message: "Настройки успешно сохранены" });
+        }
     };
     return (
         <div className="wa-quickcontact-container">
@@ -115,29 +121,32 @@ export default function QuickContactPanel() {
             <Container title="Сохранение" style={{ minWidth: "200px" }}>
                 <button
                     onClick={onSaveHandler}
-                    className={classes("button button-primary", {
-                        "success-button": status.status == "success",
-                    })}
-                    style={{ width: "100%" }}
+                    disabled={status.status == "loading" || !hasChanges}
+                    className="button button-primary"
+                    style={{ display: "block", width: "100%" }}
                 >
-                    {status.status == "loading" && (
+                    {status.status == "loading" ? (
                         <span className="button-loader">Сохранение...</span>
+                    ) : (
+                        "Сохранить"
                     )}
-                    {status.status == "success" && "Сохранено"}
-                    {(status.status == "error" || status.status == "normal") && "Сохранить"}
                 </button>
-                {status.status == "success" && (
-                    <div className="wa-success-message" style={{ maxWidth: "171px" }}>
-                        {status.message}
-                    </div>
-                )}
                 {status.status == "error" && (
                     <div className="wa-error-message" style={{ maxWidth: "171px" }}>
                         {status.message}
                     </div>
                 )}
+                {status.status == "success" && !hasChanges && (
+                    <div className="wa-success-message" style={{ maxWidth: "171px" }}>
+                        {status.message}
+                    </div>
+                )}
+                {status.status != "error" && status.status != "loading" && hasChanges && (
+                    <div className="wa-unsaved-message" style={{ maxWidth: "171px" }}>
+                        Изменения не сохранены
+                    </div>
+                )}
             </Container>
-            <div></div>
         </div>
     );
 }
