@@ -3,6 +3,18 @@
     align-items: center;
     margin-bottom: 5px;
 }
+/* Переключатели в одну строку (например выбор угла открытия) */
+.wa-toggles-inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 14px;
+    row-gap: 5px;
+}
+.wa-toggles-inline .wa-toggle-block {
+    margin-bottom: 0;
+    gap: 5px;
+}
 .wa-options-container {
     display: flex;
     flex-direction: column;

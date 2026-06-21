@@ -184,21 +184,23 @@ function AppearSideControl({ config, onChange }) {
     const vertical = config.vertical || "bottom";
     return (
         <Container title="Угол открытия">
-            <div className="wa-toggle-block">
-                <span>Слева</span>
-                <Toggle value={config.side == "left"} onChange={onChangeH("left")} />
-            </div>
-            <div className="wa-toggle-block">
-                <span>Справа</span>
-                <Toggle value={config.side == "right"} onChange={onChangeH("right")} />
-            </div>
-            <div className="wa-toggle-block">
-                <span>Сверху</span>
-                <Toggle value={vertical == "top"} onChange={onChangeV("top")} />
-            </div>
-            <div className="wa-toggle-block">
-                <span>Снизу</span>
-                <Toggle value={vertical == "bottom"} onChange={onChangeV("bottom")} />
+            <div className="wa-toggles-inline">
+                <div className="wa-toggle-block">
+                    <span>Слева</span>
+                    <Toggle value={config.side == "left"} onChange={onChangeH("left")} />
+                </div>
+                <div className="wa-toggle-block">
+                    <span>Справа</span>
+                    <Toggle value={config.side == "right"} onChange={onChangeH("right")} />
+                </div>
+                <div className="wa-toggle-block">
+                    <span>Сверху</span>
+                    <Toggle value={vertical == "top"} onChange={onChangeV("top")} />
+                </div>
+                <div className="wa-toggle-block">
+                    <span>Снизу</span>
+                    <Toggle value={vertical == "bottom"} onChange={onChangeV("bottom")} />
+                </div>
             </div>
         </Container>
     );
