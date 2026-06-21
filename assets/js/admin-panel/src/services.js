@@ -142,6 +142,9 @@ export function dashIconByType(type) {
         case "info":
             type = "dashicons-info-outline";
             break;
+        case "help":
+            type = "dashicons-editor-help";
+            break;
         case "error":
         case "warning":
             type = "dashicons-warning";
