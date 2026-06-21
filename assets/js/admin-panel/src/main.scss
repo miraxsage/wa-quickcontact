@@ -17,9 +17,15 @@
     gap: 4px;
 }
 .wa-title-with-help .dashicons {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
+    font-size: 19px;
+    width: 19px;
+    height: 19px;
+}
+.wa-title-with-help .wa-icon-button:not(.inherit-color) {
+    color: #2271b1;
+}
+.wa-title-with-help .wa-icon-button:not(.inherit-color):hover {
+    color: #135e96;
 }
 .wa-quickcontact-container {
     display: flex;
