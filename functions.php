@@ -8,8 +8,8 @@ add_action('wp_enqueue_scripts', function(){
         $qobj = get_queried_object();
         if($qobj instanceof WP_Post){
             $configObj = (array)json_decode($config);
-            $options = (array)$configObj["options"];
-            $exclude_pages = (array)$options["excludePages"];
+            $options = (array)($configObj["options"] ?? []);
+            $exclude_pages = (array)($options["excludePages"] ?? []);
             $qobj = get_queried_object();
             if(in_array($qobj->ID, $exclude_pages))
                 return;
@@ -98,7 +98,9 @@ function valid_config_or_null($config){
     foreach($config["links"] as $link){
         if(is_object($link))
             $arrlink = (array)$link;
-        elseif(!is_array($link))
+        elseif(is_array($link))
+            $arrlink = $link;
+        else
             continue;
         $valid_fields = [];
         foreach($arrlink as $k => $v){
@@ -109,14 +111,15 @@ function valid_config_or_null($config){
                 $valid_fields[$k] = $v;
             }
         }
-        if((preg_match("/^whatsapp|telegram|email|phone|vk|ok|instagram$/i", $valid_fields["kind"]) !== 1 
+        $kind = $valid_fields["kind"] ?? "";
+        if((preg_match("/^whatsapp|telegram|email|phone|vk|ok|instagram$/i", $kind) !== 1
                 || array_has_keys($valid_fields, "kind|title|link|active")) &&
-            ($valid_fields["kind"] != "message" || array_has_keys($valid_fields, "kind|title|link|active|bg|icon|id")) && 
-            ($valid_fields["kind"] != "block" || array_has_keys($valid_fields, "kind|active|content|id")) && 
-            (preg_match("/^whatsapp|telegram|email|phone|vk|ok|instagram|message|block$/i", $valid_fields["kind"]) === 1))
+            ($kind != "message" || array_has_keys($valid_fields, "kind|title|link|active|bg|icon|id")) &&
+            ($kind != "block" || array_has_keys($valid_fields, "kind|active|content|id")) &&
+            (preg_match("/^whatsapp|telegram|email|phone|vk|ok|instagram|message|block$/i", $kind) === 1))
         {
             $valid_links[] = (object)$valid_fields;
-            if(preg_match("/^message|block$/i", $valid_fields["kind"]) !== 1)
+            if(preg_match("/^message|block$/i", $kind) !== 1)
                 $important_links++;
         }
     }
