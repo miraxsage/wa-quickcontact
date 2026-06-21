@@ -37,7 +37,7 @@ function AddButton({ onAdd }) {
                 onClick={onClickHandler("message")}
             >
                 <span class="dashicons dashicons-arrow-right-alt2"></span>
-                Сообщение
+                Ссылка
             </div>
         </div>
     );
