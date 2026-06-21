@@ -43,7 +43,12 @@ function MainAttrsControl({ config, onChange }) {
                     <IconButton
                         type="help"
                         tooltip={
-                            'Применяются к кнопке открытия (в режиме «Сделать ссылкой без блока слева» - к её ссылке). Формат: class="my-class" data-id="5" title="Связаться"'
+                            <>
+                                Применяются к кнопке открытия (в режиме "Сделать ссылкой без
+                                блока слева" - к её ссылке).
+                                <br />
+                                Формат: class="my-class" data-id="5" title="Связаться"
+                            </>
                         }
                     />
                 </span>
