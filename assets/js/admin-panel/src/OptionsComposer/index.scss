@@ -8,12 +8,16 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    column-gap: 14px;
+    column-gap: 18px;
     row-gap: 5px;
 }
 .wa-toggles-inline .wa-toggle-block {
     margin-bottom: 0;
-    gap: 5px;
+    gap: 6px;
+}
+/* подпись задаётся снаружи, поэтому убираем внутренний отступ перед тумблером */
+.wa-toggles-inline .wa-toggle_header > * + * {
+    margin-left: 0;
 }
 .wa-options-container {
     display: flex;
