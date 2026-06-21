@@ -18,8 +18,8 @@ add_action('wp_enqueue_scripts', function(){
     catch(Exception $exc){
         return;
     }
-    wp_enqueue_style('wa-quick-contact', WAQCT_PLUGIN_URI."assets/css/wa-qcont.css");
-    wp_enqueue_script('wa-quick-contact', WAQCT_PLUGIN_URI."assets/js/wa-qcont.js", false, false, ["in_footer" => true]);
+    wp_enqueue_style('wa-quick-contact', WAQCT_PLUGIN_URI."assets/css/wa-qcont.css", [], filemtime(WAQCT_PLUGIN_DIR."assets/css/wa-qcont.css"));
+    wp_enqueue_script('wa-quick-contact', WAQCT_PLUGIN_URI."assets/js/wa-qcont.js", false, filemtime(WAQCT_PLUGIN_DIR."assets/js/wa-qcont.js"), ["in_footer" => true]);
     wp_add_inline_script('wa-quick-contact', 
         'waQuickContactPluginUri = "'.WAQCT_PLUGIN_URI.'";
         waQuickContactConfig = '.($config ? '`'.$config.'`' : "null").';', 
@@ -54,11 +54,12 @@ function quickcontact_admin_menu_page(){
 add_action('admin_enqueue_scripts', function($hook){
     if (strpos($hook, 'quickcontact_admin_menu') === false)
         return;
-    wp_enqueue_style('wa-quick-contact', WAQCT_BUILD_URI."index.css");
-    wp_enqueue_script('wa-quick-contact', 
-                      WAQCT_BUILD_URI."index.js", 
-                      (require(WAQCT_BUILD_DIR."index.asset.php"))["dependencies"], 
-                      false,
+    $waqct_asset = require(WAQCT_BUILD_DIR."index.asset.php");
+    wp_enqueue_style('wa-quick-contact', WAQCT_BUILD_URI."index.css", [], filemtime(WAQCT_BUILD_DIR."index.css"));
+    wp_enqueue_script('wa-quick-contact',
+                      WAQCT_BUILD_URI."index.js",
+                      $waqct_asset["dependencies"],
+                      $waqct_asset["version"],
                       ["in_footer" => true]);
     $config = get_option("wa-quickcontact-config");
     wp_add_inline_script('wa-quick-contact', 
