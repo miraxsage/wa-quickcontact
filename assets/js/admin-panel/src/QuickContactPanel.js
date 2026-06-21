@@ -22,6 +22,7 @@ const defaultConfig = {
         mainIcon: null,
         pulseAnimation: true,
         swingAnimation: true,
+        scrollInertia: false,
         appearDelay: null,
         appearDistance: null,
         closeDelay: null,

@@ -143,6 +143,7 @@
             mainIcon: null,
             pulseAnimation: true,
             swingAnimation: true,
+            scrollInertia: false,
             appearDelay: null,
             appearDistance: null,
             closeDelay: null,
@@ -342,6 +343,34 @@
             }
         }
         document.body.append(root);
+        // Инерция при прокрутке: кнопка с запозданием (easing) "догоняет" свою позицию
+        if (config.options.scrollInertia) {
+            root.classList.add("wa-qc-inertia");
+            const MAX_LAG = 70;
+            const EASE = 0.1;
+            let lag = 0;
+            let lastY = window.scrollY || window.pageYOffset || 0;
+            let rafId = null;
+            const loop = () => {
+                lag += (0 - lag) * EASE;
+                if (Math.abs(lag) < 0.1) {
+                    lag = 0;
+                    rafId = null;
+                    root.style.setProperty("--wa-qc-lag", "0px");
+                    return;
+                }
+                root.style.setProperty("--wa-qc-lag", lag.toFixed(2) + "px");
+                rafId = requestAnimationFrame(loop);
+            };
+            window.addEventListener("scroll", () => {
+                const y = window.scrollY || window.pageYOffset || 0;
+                lag -= y - lastY;
+                lastY = y;
+                if (lag > MAX_LAG) lag = MAX_LAG;
+                if (lag < -MAX_LAG) lag = -MAX_LAG;
+                if (!rafId) rafId = requestAnimationFrame(loop);
+            }, { passive: true });
+        }
         if (config.options.appearDelay) showMainButton(config.options.appearDelay);
         if (config.options.appearDistance) window.addEventListener("scroll", onScroll);
         if(!config.options.appearDelay && !config.options.appearDistance)

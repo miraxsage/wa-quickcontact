@@ -95,6 +95,13 @@ function AnimationsModesControl({ config, onChange }) {
                     onChange={onChangeHandler("swingAnimation")}
                 />
             </div>
+            <div className="wa-toggle-block">
+                <span>Инерция при прокрутке</span>
+                <Toggle
+                    value={config.scrollInertia}
+                    onChange={onChangeHandler("scrollInertia")}
+                />
+            </div>
         </Container>
     );
 }

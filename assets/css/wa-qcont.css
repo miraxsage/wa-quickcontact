@@ -454,3 +454,10 @@
     margin-top: 0;
     margin-bottom: 30px;
 }
+
+/* Инерция при прокрутке: смещение кнопки задаётся переменной --wa-qc-lag из JS.
+   Анимация появления (scale) перекрывает transform только на время своего проигрывания. */
+.wa-qc-core.wa-qc-inertia {
+    transform: translateY(var(--wa-qc-lag, 0px));
+    will-change: transform;
+}
