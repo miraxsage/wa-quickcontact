@@ -430,3 +430,27 @@
         transform: rotate(0deg);
     }
 }
+
+/* Вертикальное положение. По умолчанию кнопка снизу (bottom: 30px на .wa-qc-core),
+   список раскрывается вверх. Для верхних углов якорим к top, разворачиваем порядок
+   (кнопка сверху, список снизу) и переносим зазор под кнопку. */
+.wa-qc-top {
+    top: 30px;
+    bottom: auto;
+    display: flex;
+    flex-direction: column-reverse;
+}
+.wa-qc-top.wa-qc-shown {
+    display: flex;
+    transform-origin: 60% 40%;
+}
+.wa-qc-right.wa-qc-top {
+    align-items: flex-end;
+}
+.wa-qc-left.wa-qc-top {
+    align-items: flex-start;
+}
+.wa-qc-top .wa-qc-circle {
+    margin-top: 0;
+    margin-bottom: 30px;
+}

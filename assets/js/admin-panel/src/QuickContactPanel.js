@@ -26,6 +26,7 @@ const defaultConfig = {
         appearDistance: null,
         closeDelay: null,
         side: "right",
+        vertical: "bottom",
         excludePages: [],
     },
 };
@@ -55,6 +56,12 @@ export default function QuickContactPanel() {
         if (!initialConfig.current) {
             initialConfig.current = JSON.parse(waQuickContactConfig);
             if (!initialConfig.current) throw new Error();
+            // подмешиваем дефолты опций, чтобы старые конфиги без новых полей
+            // (например vertical) всегда содержали полный набор и проходили валидацию
+            initialConfig.current.options = {
+                ...defaultConfig.options,
+                ...initialConfig.current.options,
+            };
         }
     } catch {
         initialConfig.current = defaultConfig;

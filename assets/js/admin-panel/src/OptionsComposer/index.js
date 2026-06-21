@@ -164,19 +164,28 @@ function CloseCondtitionsControl({ config, onChange }) {
     );
 }
 function AppearSideControl({ config, onChange }) {
-    const opposite = { left: "right", right: "left" };
-    const onChangeHandler = (kind) => {
-        return (id, val) => onChange({ side: val ? kind : opposite[kind] });
-    };
+    const oppositeH = { left: "right", right: "left" };
+    const oppositeV = { top: "bottom", bottom: "top" };
+    const onChangeH = (kind) => (id, val) => onChange({ side: val ? kind : oppositeH[kind] });
+    const onChangeV = (kind) => (id, val) => onChange({ vertical: val ? kind : oppositeV[kind] });
+    const vertical = config.vertical || "bottom";
     return (
-        <Container title="Сторона открытия">
+        <Container title="Угол открытия">
             <div className="wa-toggle-block">
                 <span>Слева</span>
-                <Toggle value={config.side == "left"} onChange={onChangeHandler("left")} />
+                <Toggle value={config.side == "left"} onChange={onChangeH("left")} />
             </div>
             <div className="wa-toggle-block">
                 <span>Справа</span>
-                <Toggle value={config.side == "right"} onChange={onChangeHandler("right")} />
+                <Toggle value={config.side == "right"} onChange={onChangeH("right")} />
+            </div>
+            <div className="wa-toggle-block">
+                <span>Сверху</span>
+                <Toggle value={vertical == "top"} onChange={onChangeV("top")} />
+            </div>
+            <div className="wa-toggle-block">
+                <span>Снизу</span>
+                <Toggle value={vertical == "bottom"} onChange={onChangeV("bottom")} />
             </div>
         </Container>
     );

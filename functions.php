@@ -126,7 +126,7 @@ function valid_config_or_null($config){
     if($important_links != 7)
         return null;
 
-    $options_fields = ["mainLink", "mainAttrs",  "mainIcon", "pulseAnimation", "swingAnimation", "appearDelay", "appearDistance", "closeDelay", "side", "excludePages"];
+    $options_fields = ["mainLink", "mainAttrs",  "mainIcon", "pulseAnimation", "swingAnimation", "appearDelay", "appearDistance", "closeDelay", "side", "vertical", "excludePages"];
     $options = $config["options"];
     if(is_object($options))
         $options = (array)$config["options"];

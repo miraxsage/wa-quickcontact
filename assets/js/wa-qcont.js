@@ -147,6 +147,7 @@
             appearDistance: null,
             closeDelay: null,
             side: "right",
+            vertical: "bottom",
             excludePages: [],
         },
     };
@@ -297,8 +298,9 @@
         }
 
         let markup = `
-        <div class="wa-qc-core 
+        <div class="wa-qc-core
                     wa-qc-${config.options.side == "left" ? "left" : "right"}
+                    wa-qc-${config.options.vertical == "top" ? "top" : "bottom"}
                     ${config.options.pulseAnimation ? " wa-qc-pulse" : ""}
                     ${config.options.swingAnimation ? " wa-qc-swing" : ""}" 
             style="--total-items: ${socials.length};
