@@ -343,33 +343,42 @@
             }
         }
         document.body.append(root);
-        // Инерция при прокрутке: кнопка с запозданием (easing) "догоняет" свою позицию
+        // Инерция при прокрутке: кнопка позиционируется absolute и покадрово (easing)
+        // догоняет свою целевую позицию во вьюпорте, анимируя top - без рывков.
+        // rAF-цикл запускается на скролл/ресайз/изменение высоты и сам гаснет по достижении цели.
         if (config.options.scrollInertia) {
             root.classList.add("wa-qc-inertia");
-            const MAX_LAG = 70;
-            const EASE = 0.1;
-            let lag = 0;
-            let lastY = window.scrollY || window.pageYOffset || 0;
+            const EASE = 0.12;
+            const isTop = config.options.vertical == "top";
+            let coreHeight = root.offsetHeight;
+            let currentTop = null; // инициализируется лениво, когда станет известна высота
             let rafId = null;
-            const loop = () => {
-                lag += (0 - lag) * EASE;
-                if (Math.abs(lag) < 0.1) {
-                    lag = 0;
+            const targetTop = () =>
+                (window.scrollY || window.pageYOffset || 0) +
+                (isTop ? 30 : window.innerHeight - coreHeight - 30);
+            const tick = () => {
+                const t = targetTop();
+                if (currentTop === null) currentTop = t; // первичная установка без анимации
+                else currentTop += (t - currentTop) * EASE;
+                if (Math.abs(t - currentTop) < 0.3) {
+                    currentTop = t;
                     rafId = null;
-                    root.style.setProperty("--wa-qc-lag", "0px");
-                    return;
+                } else {
+                    rafId = requestAnimationFrame(tick);
                 }
-                root.style.setProperty("--wa-qc-lag", lag.toFixed(2) + "px");
-                rafId = requestAnimationFrame(loop);
+                root.style.top = currentTop + "px";
             };
-            window.addEventListener("scroll", () => {
-                const y = window.scrollY || window.pageYOffset || 0;
-                lag -= y - lastY;
-                lastY = y;
-                if (lag > MAX_LAG) lag = MAX_LAG;
-                if (lag < -MAX_LAG) lag = -MAX_LAG;
-                if (!rafId) rafId = requestAnimationFrame(loop);
-            }, { passive: true });
+            const kick = () => { if (rafId === null) rafId = requestAnimationFrame(tick); };
+            window.addEventListener("scroll", kick, { passive: true });
+            window.addEventListener("resize", kick);
+            if (window.ResizeObserver)
+                new ResizeObserver(() => {
+                    const h = root.offsetHeight;
+                    if (h) coreHeight = h;
+                    currentTop = null; // изменение высоты (показ/раскрытие) - привязка без лага
+                    kick();
+                }).observe(root);
+            kick();
         }
         if (config.options.appearDelay) showMainButton(config.options.appearDelay);
         if (config.options.appearDistance) window.addEventListener("scroll", onScroll);

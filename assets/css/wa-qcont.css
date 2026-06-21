@@ -455,9 +455,10 @@
     margin-bottom: 30px;
 }
 
-/* Инерция при прокрутке: смещение кнопки задаётся переменной --wa-qc-lag из JS.
-   Анимация появления (scale) перекрывает transform только на время своего проигрывания. */
+/* Инерция при прокрутке: кнопка позиционируется absolute, её top анимируется
+   из JS покадрово с easing, поэтому она плавно "догоняет" позицию при скролле. */
 .wa-qc-core.wa-qc-inertia {
-    transform: translateY(var(--wa-qc-lag, 0px));
-    will-change: transform;
+    position: absolute;
+    top: 0;
+    bottom: auto;
 }
