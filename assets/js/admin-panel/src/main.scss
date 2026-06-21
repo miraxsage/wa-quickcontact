@@ -29,6 +29,10 @@
         border-left: 1px solid #d1d1d1;
         border-top: none;
     }
+    /* В вертикальной раскладке колонки растягиваются на всю ширину */
+    .wa-quickcontact-container > *:nth-child(3) {
+        flex: 0 0 auto;
+    }
 }
 .wa-quickcontact-container > *:nth-child(1) {
     flex-grow: 1.5;
@@ -36,8 +40,10 @@
 .wa-quickcontact-container > *:nth-child(2) {
     flex-grow: 1;
 }
+/* Правая колонка - фиксированной ширины, как в wa-slider; длинный текст
+   сообщений переносится внутри, а не растягивает колонку */
 .wa-quickcontact-container > *:nth-child(3) {
-    flex-grow: 0;
+    flex: 0 0 200px;
 }
 
 // Исправляет некорректную работу react-beautiful-dnd при перетаскивании

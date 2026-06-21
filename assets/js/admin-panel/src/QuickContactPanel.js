@@ -128,7 +128,7 @@ export default function QuickContactPanel() {
                     onChange={(c) => onChangeHandler({ ...config, options: c })}
                 />
             </Container>
-            <Container title="Сохранение" style={{ minWidth: "200px" }}>
+            <Container title="Сохранение">
                 <button
                     onClick={onSaveHandler}
                     disabled={status.status == "loading" || !hasChanges}
