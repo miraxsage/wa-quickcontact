@@ -265,10 +265,17 @@
                 .map(({kind, title, link, active, bg, icon, content}) => {
                     itemsCount++;
                     if (active && kind && kind.match(/^whatsapp|telegram|email|phone|vk|ok|instagram|message|block$/i)) {
-                        if (kind == "block")
+                        if (kind == "block") {
+                            const blockContent = !!customConfig ? (content ?? "") : (content ? Base64.decode(content) : "");
+                            // пустой блок (без содержимого) не отображаем
+                            if (!blockContent.trim()) {
+                                itemsCount--;
+                                return null;
+                            }
                             return `<div class="wa-qc-contact-block" style="--item-number:${itemsCount}">
-                                        <div class="wa-qc-bordercase">${!!customConfig ? (content ?? "") : (content ? Base64.decode(content) : "")}</div>
+                                        <div class="wa-qc-bordercase">${blockContent}</div>
                                     </div>`;
+                        }
                         else
                             return `<div style="--item-number:${itemsCount}" class="wa-qc-contact">
                                         <b>${title ?? defaultTitles[kind]}</b>
