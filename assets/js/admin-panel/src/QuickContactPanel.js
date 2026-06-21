@@ -1,7 +1,7 @@
 import Container from "./Container";
 import LinksComposer from "./LinksComposer";
 import OptionsComposer from "./OptionsComposer";
-import { useState, useLayoutEffect, useRef } from "react";
+import { useState, useLayoutEffect, useEffect, useRef } from "react";
 import { Base64 } from "./services";
 
 const defaultConfig = {
@@ -68,6 +68,16 @@ export default function QuickContactPanel() {
     }, []);
     const [status, setStatus] = useState({ status: "normal" });
     const hasChanges = JSON.stringify(config) !== JSON.stringify(savedConfig.current);
+    useEffect(() => {
+        if (!hasChanges) return;
+        const onBeforeUnload = (e) => {
+            e.preventDefault();
+            e.returnValue = "Несохраненные изменения будут утеряны";
+            return e.returnValue;
+        };
+        window.addEventListener("beforeunload", onBeforeUnload);
+        return () => window.removeEventListener("beforeunload", onBeforeUnload);
+    }, [hasChanges]);
     const onChangeHandler = (newConfig) => {
         setStatus({ status: "normal" });
         setConfig(newConfig);

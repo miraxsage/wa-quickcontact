@@ -46,27 +46,23 @@
     max-height: 0;
 }
 
-/* Статусные сообщения */
+/* Статусные сообщения - оформление как в wa-slider */
 .wa-error-message,
 .wa-success-message,
 .wa-unsaved-message {
-    background: #fff;
-    border: 1px solid #c3c4c7;
-    border-left-width: 4px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-    margin: 5px 0px 5px;
-    padding: 5px 12px;
-}
-.wa-error-message {
-    border-left-color: #d63638;
-    background-color: #fff2f2;
+    margin: 5px 0;
+    padding: 6px 10px;
+    border-radius: 3px;
 }
 .wa-success-message {
-    border-left-color: #21be50;
+    background: #d8ecda;
+    border: 1px solid #a8c5ab;
 }
+.wa-error-message,
 .wa-unsaved-message {
-    border-left-color: #dba617;
-    background-color: #fcf9e8;
+    background: #ffe5e5;
+    border: 1px solid #b69191;
+    color: #812626;
 }
 
 /* Серая (неактивная) кнопка сохранения по умолчанию - как в wa-slider */
