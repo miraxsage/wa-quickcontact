@@ -329,7 +329,8 @@
     transition: all var(--total-delay) cubic-bezier(0.135, 0.52, 0.55, 0.92);
 }
 .wa-qc-core.wa-qc-close .wa-qc-list {
-    max-height: 500px;
+    /* высота = фактической высоте контента (выставляется из JS), фолбэк 506px */
+    max-height: var(--wa-qc-list-h, 506px);
     overflow: hidden;
 }
 .wa-qc-contact,
@@ -461,4 +462,14 @@
     position: absolute;
     top: 0;
     bottom: auto;
+}
+
+/* На мобильных (ниже 768px) боковой отступ от края 15px вместо 30px */
+@media (max-width: 767px) {
+    .wa-qc-left {
+        left: 15px;
+    }
+    .wa-qc-right {
+        right: 15px;
+    }
 }

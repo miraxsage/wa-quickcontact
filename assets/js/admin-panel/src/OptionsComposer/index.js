@@ -16,7 +16,7 @@ function ErrorControl({ children }) {
 }
 function MainLinkControl({ config, onChange }) {
     return (
-        <Container title="Сделать ссылкой без блока слева">
+        <Container title="Сделать кнопку открытия ссылкой">
             <div className="wa-toggle-block">
                 <span>Да</span>
                 <Toggle
@@ -44,8 +44,8 @@ function MainAttrsControl({ config, onChange }) {
                         type="help"
                         tooltip={
                             <>
-                                Применяются к кнопке открытия (в режиме "Сделать ссылкой без
-                                блока слева" - к её ссылке).
+                                Применяются к кнопке открытия (в режиме "Сделать кнопку
+                                открытия ссылкой" - к её ссылке).
                                 <br />
                                 Формат: class="my-class" data-id="5" title="Связаться"
                             </>

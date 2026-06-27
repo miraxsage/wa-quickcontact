@@ -233,9 +233,21 @@
             if (typeof visible === "boolean") closed = !visible;
             else closed = !closed;
             if (!closed) {
+                // высота раскрытого списка = фактической высоте контента, чтобы ничего
+                // не обрезалось при любом числе элементов. В закрытом состоянии у элементов
+                // margin-bottom: 0, в открытом - 10px (см. wa-qcont.css), поэтому к измеренной
+                // (закрытой) высоте добавляем по 10px на каждый элемент списка.
+                const list = root.querySelector(".wa-qc-list");
+                if (list) {
+                    const items = list.querySelectorAll(".wa-qc-contact, .wa-qc-contact-block");
+                    root.style.setProperty(
+                        "--wa-qc-list-h",
+                        list.scrollHeight + items.length * 10 + "px"
+                    );
+                }
                 root.classList.add("wa-qc-close");
             }
-            else { 
+            else {
                 root.classList.remove("wa-qc-close");
             }
             toggleBodyClickListenerForClosing(!closed);
